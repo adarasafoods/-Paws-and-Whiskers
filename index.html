@@ -1,67 +1,13 @@
-        .pet-label {
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-            color: #2c3e50;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
-        }            <div id="puppySection" class="product-section">
-                <h2 style="margin-bottom: 25px; color: #333;">🐶 Puppy Food Selection</h2>
-                
-                <div class="form-group">
-                    <label>Select Brand:</label>
-                    <select id="puppyBrand" onchange="updateSummary()">
-                        <option value="">-- Choose Brand --</option>
-                        <option value="Royal Canin">Royal Canin</option>
-                        <option value="Advance">Advance</option>
-                        <option value="Purina">Purina</option>
-                        <option value="Hill's Science">Hill's Science</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Size:</label>
-                    <div class="size-grid" id="puppySizeGrid"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Quantity:</label>
-                    <input type="number" id="puppyQuantity" min="1" value="1" onchange="updateSummary()">
-                </div>
-            </div>
-
-            <div id="kittenSection" class="product-section">
-                <h2 style="margin-bottom: 25px; color: #333;">😺 Kitten Food Selection</h2>
-                
-                <div class="form-group">
-                    <label>Select Brand:</label>
-                    <select id="kittenBrand" onchange="updateSummary()">
-                        <option value="">-- Choose Brand --</option>
-                        <option value="Royal Canin">Royal Canin</option>
-                        <option value="Advance">Advance</option>
-                        <option value="Purina">Purina</option>
-                        <option value="Hill's Science">Hill's Science</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Size:</label>
-                    <div class="size-grid" id="kittenSizeGrid"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Quantity:</label>
-                    <input type="number" id="kittenQuantity" min="1" value="1" onchange="updateSummary()">
-                </div>
-            </div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paws & Whiskers - Pet Food Store Sri Lanka</title>
+    <title>🐾 Paws & Whiskers - Premium Pet Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-
         * {
             margin: 0;
             padding: 0;
@@ -70,11 +16,26 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, 
+                #ffb3d9 0%,
+                #e8b3ff 15%,
+                #b8b3ff 30%,
+                #b3d9ff 45%,
+                #b3ffb3 60%,
+                #ffffb3 75%,
+                #ffd9b3 90%,
+                #ffb3d9 100%
+            );
+            background-size: 400% 400%;
             min-height: 100vh;
-            padding: 20px;
-            position: relative;
             overflow-x: hidden;
+            position: relative;
+            animation: gradientShift 20s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         body::before {
@@ -84,1165 +45,907 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(255, 179, 71, 0.1) 0%, transparent 50%);
-            pointer-events: none;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
             z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Cute background pet images */
+        .bg-pet-img {
+            position: fixed;
+            z-index: 0;
+            opacity: 0.09;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.35));
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+        .bg-pet-dog {
+            bottom: 5%;
+            left: -40px;
+            width: 360px;
+            transform: rotate(-4deg);
+        }
+        .bg-pet-cat {
+            top: 8%;
+            right: -40px;
+            width: 320px;
+            transform: rotate(6deg);
+        }
+
+        @media (max-width: 768px) {
+            .bg-pet-dog, .bg-pet-cat { display: none; }
+        }
+
+        .paw-print {
+            position: fixed;
+            font-size: 40px;
+            opacity: 0.2;
+            animation: floatPaw 15s infinite ease-in-out;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .paw-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .paw-2 { top: 70%; left: 10%; animation-delay: 3s; }
+        .paw-3 { top: 30%; right: 8%; animation-delay: 6s; }
+        .paw-4 { bottom: 20%; right: 15%; animation-delay: 9s; }
+        .paw-5 { top: 50%; left: 20%; animation-delay: 12s; }
+        .paw-6 { bottom: 40%; right: 25%; animation-delay: 5s; }
+
+        @keyframes floatPaw {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(-5deg); }
+            75% { transform: translateY(-25px) rotate(3deg); }
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            box-shadow: 0 30px 90px rgba(0,0,0,0.3);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
+            padding: 20px;
             position: relative;
-            z-index: 1;
+            z-index: 10;
         }
 
-        header {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 40px 30px;
+        .header {
             text-align: center;
+            padding: 30px 20px;
             position: relative;
-            overflow: hidden;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 10px,
-                rgba(255, 255, 255, 0.05) 10px,
-                rgba(255, 255, 255, 0.05) 20px
-            );
-            animation: headerPattern 20s linear infinite;
-        }
-
-        @keyframes headerPattern {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(50px, 50px);
-            }
-        }
-
-        .language-selector {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .lang-btn {
-            padding: 10px 20px;
-            margin: 0 5px;
-            border: 2px solid white;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .lang-btn:hover {
-            background: white;
-            color: #f5576c;
-        }
-
-        .lang-btn.active {
-            background: white;
-            color: #f5576c;
-        }
-
-        h1 {
+        .logo-title {
             font-family: 'Fredoka', sans-serif;
-            color: white;
-            font-size: 3.5em;
+            font-size: 56px;
             font-weight: 700;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            color: white;
+            text-shadow: 
+                4px 4px 0px #ff69b4,
+                -2px -2px 0px #fff,
+                2px 2px 8px rgba(0,0,0,0.3);
             margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            animation: titleGlow 2s ease-in-out infinite alternate;
             letter-spacing: 2px;
         }
 
-        @keyframes titleGlow {
-            0% {
-                text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
-            }
-            100% {
-                text-shadow: 3px 3px 6px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.5);
-            }
+        .logo-title .paw-icon {
+            display: inline-block;
+            animation: bounce 2s infinite;
         }
 
-        .tagline {
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subtitle {
+            font-size: 18px;
             color: white;
-            font-size: 1.2em;
-            opacity: 0.95;
-            position: relative;
-            z-index: 1;
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-weight: 600;
+            letter-spacing: 1px;
         }
 
-        .animation-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
+        .lang-switch {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0 40px;
         }
 
-        .dog, .cat {
-            position: absolute;
-            font-size: 40px;
-            animation: chase 8s linear infinite;
+        .lang-btn {
+            background: white;
+            border: 4px solid transparent;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .dog {
-            left: -50px;
-            top: 50%;
-            animation-delay: 0s;
+        .lang-btn.active {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c368ff 100%);
+            color: white;
+            border-color: white;
+            transform: scale(1.05);
         }
 
-        .cat {
-            left: -50px;
-            top: 50%;
-            animation-delay: 0.5s;
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
 
-        @keyframes chase {
-            0% {
-                left: -50px;
-                transform: translateY(0);
-            }
-            50% {
-                left: 50%;
-                transform: translateY(-20px);
-            }
-            100% {
-                left: 110%;
-                transform: translateY(0);
-            }
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        .pet-selector {
+        .pets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-            perspective: 1000px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .pets-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .pets-grid { grid-template-columns: 1fr; }
         }
 
         .pet-card {
-            position: relative;
-            border-radius: 50%;
-            overflow: visible;
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: none;
             background: white;
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.2),
-                inset 0 -10px 30px rgba(0,0,0,0.1);
-            height: 280px;
-            width: 280px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform-style: preserve-3d;
-        }
-
-        .pet-card::after {
-            content: '';
-            position: absolute;
-            top: -5%;
-            left: 10%;
-            right: 10%;
-            height: 30%;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0.5) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(10px);
-            z-index: 1;
+            border-radius: 36px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
         .pet-card::before {
             content: '';
             position: absolute;
-            inset: -5px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 50%, rgba(0,0,0,0.1));
-            z-index: 0;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #ff6b9d, #c368ff, #68b5ff, #68ffb5);
+            border-radius: 36px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .pet-card:hover {
-            transform: translateY(-20px) scale(1.05) rotateX(5deg);
-            box-shadow: 
-                0 30px 60px rgba(0,0,0,0.3),
-                inset 0 -10px 30px rgba(0,0,0,0.15),
-                0 0 40px rgba(255,255,255,0.2);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
         }
 
-        .pet-card.active {
-            border: none;
-            box-shadow: 
-                0 30px 70px rgba(102, 126, 234, 0.6),
-                inset 0 -10px 30px rgba(102, 126, 234, 0.3),
-                0 0 50px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            animation: spherePulse 2s ease-in-out infinite;
+        .pet-card.selected {
+            border-color: #ff6b9d;
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
         }
 
-        @keyframes spherePulse {
-            0%, 100% {
-                box-shadow: 
-                    0 30px 70px rgba(102, 126, 234, 0.6),
-                    inset 0 -10px 30px rgba(102, 126, 234, 0.3),
-                    0 0 50px rgba(102, 126, 234, 0.4);
-            }
-            50% {
-                box-shadow: 
-                    0 35px 80px rgba(102, 126, 234, 0.7),
-                    inset 0 -10px 30px rgba(102, 126, 234, 0.4),
-                    0 0 70px rgba(102, 126, 234, 0.6);
-            }
+        .pet-card.selected::before {
+            opacity: 1;
         }
 
-        .pet-card.active .pet-checkmark {
-            content: '✓';
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            z-index: 100;
-            animation: checkmark 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
-        }
-
-        @keyframes checkmark {
-            0% {
-                transform: scale(0) rotate(-180deg);
-            }
-            50% {
-                transform: scale(1.2) rotate(0deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-            }
-        }
-
-        .pet-card-content {
-            text-align: center;
-            z-index: 1;
-            padding: 20px;
-        }
-
-        .pet-icon {
-            font-size: 150px;
-            line-height: 1;
+        .pet-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 40%;
             margin-bottom: 15px;
-            display: block;
-            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.25));
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background: radial-gradient(circle at 30% 20%, #ffffff 0%, #ffe6f2 40%, #ffcce8 70%, transparent 72%);
+            padding: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
         }
 
-        .pet-card:hover .pet-icon {
-            transform: scale(1.2) rotate(8deg);
-            filter: drop-shadow(0 12px 30px rgba(0,0,0,0.3));
+        .pet-name {
+            font-size: 22px;
+            font-weight: 800;
+            color: #333;
+            margin: 10px 0;
+            font-family: 'Fredoka', sans-serif;
         }
 
-        .pet-card.active .pet-icon {
-            animation: bounce 0.6s ease-in-out;
+        .pet-type-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 13px;
+            margin: 8px 0;
         }
 
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
+        .type-puppy { background: linear-gradient(135deg, #68b5ff, #a8d5ff); color: #1a5490; }
+        .type-dog { background: linear-gradient(135deg, #68ffb5, #a8ffcf); color: #1a5f3f; }
+        .type-cat { background: linear-gradient(135deg, #ff9068, #ffb898); color: #8f3a1a; }
+        .type-kitten { background: linear-gradient(135deg, #ffd968, #ffe898); color: #8f6b1a; }
 
-        .pet-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            opacity: 0.1;
-            z-index: 0;
-        }
-
-        #dogCard {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
-        }
-
-        #puppyCard {
-            background: linear-gradient(135deg, #fab1a0 0%, #ff7675 100%);
-        }
-
-        #catCard {
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-        }
-
-        #kittenCard {
-            background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
-        }
-
-        .pet-card.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .pet-card.active .pet-label {
+        .select-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c368ff 100%);
             color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
+            font-family: 'Poppins', sans-serif;
         }
 
-        .product-section {
+        .select-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 157, 0.5);
+        }
+
+        .order-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 40px;
+            padding: 50px;
+            margin: 50px auto;
+            max-width: 1300px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
             display: none;
         }
 
-        .product-section.active {
+        .order-section.show {
             display: block;
+            animation: slideUp 0.6s ease;
         }
 
-        .form-group {
-            margin-bottom: 30px;
-            position: relative;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        label {
-            display: block;
+        .order-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c368ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
             font-family: 'Fredoka', sans-serif;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 12px;
-            font-size: 1.3em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
 
-        select, input {
+        .order-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 1000px) {
+            .order-layout { grid-template-columns: 1fr; }
+            .order-summary-box { position: static !important; }
+        }
+
+        .form-column {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 16px;
+        }
+
+        input, select {
             width: 100%;
-            padding: 18px 24px;
+            padding: 16px 20px;
             border: 3px solid #e0e0e0;
             border-radius: 20px;
             font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 15px;
+            transition: all 0.3s ease;
             background: white;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        select:focus, input:focus {
+        input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 6px rgba(102, 126, 234, 0.15), 0 10px 25px rgba(102, 126, 234, 0.2);
-            transform: translateY(-3px);
+            border-color: #ff6b9d;
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
         }
 
-        select:hover, input:hover {
-            border-color: #a8b3ff;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .delivery-info {
-            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-            padding: 30px;
-            border-radius: 25px;
-            margin: 30px 0;
-            border: none;
-            box-shadow: 0 10px 30px rgba(150, 230, 161, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .delivery-info::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 20px,
-                rgba(255, 255, 255, 0.1) 20px,
-                rgba(255, 255, 255, 0.1) 40px
-            );
-            animation: deliveryPattern 20s linear infinite;
-        }
-
-        @keyframes deliveryPattern {
-            0% {
-                transform: translate(0, 0);
-            }
-            100% {
-                transform: translate(40px, 40px);
-            }
-        }
-
-        .delivery-info h3 {
-            font-family: 'Fredoka', sans-serif;
-            color: #2d5016;
-            margin-bottom: 15px;
-            font-size: 2em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
-        }
-
-        .delivery-info p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1em;
-            color: #2d5016;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-            line-height: 1.6;
-        }
-
-        .order-summary {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 30px;
-            border-radius: 25px;
-            margin: 30px 0;
-            box-shadow: 0 10px 30px rgba(168, 237, 234, 0.3);
-            border: 3px solid rgba(255,255,255,0.5);
-        }
-
-        .order-summary h3 {
-            font-family: 'Fredoka', sans-serif;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            font-size: 2em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 15px 0;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2em;
-            padding: 12px;
-            background: rgba(255,255,255,0.5);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .summary-item span {
-            font-weight: 600;
-            color: #555;
-        }
-
-        .summary-item strong {
-            font-weight: 700;
-            color: #2c3e50;
-        }
-
-        .whatsapp-btn {
-            width: 100%;
-            padding: 25px;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: white;
-            border: none;
-            border-radius: 20px;
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.6em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        select {
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .whatsapp-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .whatsapp-btn:hover::before {
-            width: 400%;
-            height: 400%;
-        }
-
-        .whatsapp-btn:hover {
-            background: linear-gradient(135deg, #128C7E 0%, #075E54 100%);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(37, 211, 102, 0.5);
-        }
-
-        .whatsapp-btn:active {
-            transform: translateY(-4px) scale(0.98);
-        }
-
-        .whatsapp-btn:disabled {
-            background: linear-gradient(135deg, #ccc 0%, #999 100%);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .whatsapp-btn span {
-            position: relative;
-            z-index: 1;
-        }
-
-        .qr-section {
-            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            margin-top: 30px;
-            border: 4px dashed #00acc1;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 172, 193, 0.3);
-        }
-
-        .qr-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 20px,
-                rgba(0, 172, 193, 0.08) 20px,
-                rgba(0, 172, 193, 0.08) 40px
-            );
-            animation: qrPattern 15s linear infinite;
-        }
-
-        @keyframes qrPattern {
-            0% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            100% {
-                transform: translate(40px, 40px) rotate(360deg);
-            }
-        }
-
-        .qr-section h3 {
-            font-family: 'Fredoka', sans-serif;
-            color: #00838f;
-            margin-bottom: 25px;
-            font-size: 2em;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
-        }
-
-        .qr-code {
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            display: inline-block;
-            margin-top: 20px;
-            box-shadow: 
-                0 15px 40px rgba(0,0,0,0.2),
-                inset 0 5px 15px rgba(255,255,255,0.5);
-            position: relative;
-            z-index: 1;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            border: 3px solid rgba(255,255,255,0.8);
-        }
-
-        .qr-code:hover {
-            transform: scale(1.08) rotate(2deg);
-            box-shadow: 
-                0 20px 50px rgba(0,0,0,0.25),
-                inset 0 5px 15px rgba(255,255,255,0.5),
-                0 0 30px rgba(0, 172, 193, 0.5);
-        }
-
-        .qr-code canvas {
-            display: block;
-        }
-
-        .qr-instructions {
-            margin-top: 25px;
-            color: #00838f;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.2em;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-            line-height: 1.6;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10'%3E%3Cpath d='M0 0l8 10 8-10z' fill='%23ff6b9d'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 50px;
         }
 
         .size-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             margin-top: 10px;
         }
 
         .size-option {
             padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 15px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            background: white;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .size-option::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(102, 126, 234, 0.1);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
+            font-weight: 700;
+            transition: all 0.3s ease;
         }
 
         .size-option:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-        }
-
-        .size-option:hover::before {
-            width: 200%;
-            height: 200%;
+            border-color: #ff6b9d;
+            background: #fff5f9;
+            transform: translateY(-2px);
         }
 
         .size-option.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #ff6b9d;
+            background: linear-gradient(135deg, #ff6b9d, #c368ff);
             color: white;
-            border-color: #667eea;
             transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
+        .order-summary-box {
+            background: linear-gradient(135deg, #fff5f9 0%, #f5f0ff 100%);
+            border-radius: 30px;
+            padding: 35px;
+            border: 4px solid #ff6b9d;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2);
+            position: sticky;
+            top: 30px;
+            height: fit-content;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px dashed #ff6b9d;
+        }
+
+        .summary-title {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b9d, #c368ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .summary-icon {
+            font-size: 40px;
+            animation: wiggle 2s infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 2px solid rgba(255, 107, 157, 0.1);
+            font-size: 15px;
+        }
+
+        .summary-item-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .summary-item-value {
+            font-weight: 800;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .summary-note {
+            margin-top: 20px;
+            padding: 18px;
+            background: linear-gradient(135deg, #fffbcc, #fff5e6);
+            border-radius: 18px;
+            font-size: 13px;
+            color: #8f6b1a;
+            line-height: 1.6;
+            border: 2px solid #ffd968;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c368ff 50%, #68b5ff 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.4);
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(255, 107, 157, 0.6);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .delivery-banner {
+            background: linear-gradient(135deg, #68ffb5, #a8ffcf);
+            border-radius: 30px;
+            padding: 40px;
+            text-align: center;
+            margin: 50px auto;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(104, 255, 181, 0.3);
+        }
+
+        .delivery-banner h3 {
+            font-size: 32px;
+            color: #1a5f3f;
+            margin-bottom: 15px;
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .delivery-banner p {
+            font-size: 17px;
+            color: #2d7a53;
+            line-height: 1.7;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 600;
+        }
+
+        /* Mobile optimizations */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2em;
-            }
-            
-            .pet-selector {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .content {
-                padding: 20px;
-            }
+            .logo-title { font-size: 36px; }
+            .order-section { padding: 30px 20px; }
+            .order-title { font-size: 28px; }
+            .size-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+            .size-option { padding: 12px 8px; font-size: 13px; }
+            .delivery-banner { padding: 30px 20px; }
+            .delivery-banner h3 { font-size: 24px; }
+            .delivery-banner p { font-size: 15px; }
+            .summary-title { font-size: 22px; }
+        }
 
-            .pet-card {
-                height: 220px;
-                width: 220px;
-            }
-
-            .pet-icon {
-                font-size: 90px;
-                margin-bottom: 5px;
-            }
-
-            .pet-label {
-                font-size: 1.6em;
-            }
+        @media (max-width: 480px) {
+            .container { padding: 10px; }
+            .header { padding: 20px 10px; }
+            .pets-grid { padding: 0 10px; gap: 20px; }
+            .pet-card { padding: 15px; }
+            .pet-name { font-size: 20px; }
+            .lang-btn { padding: 10px 20px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
+    <!-- faint cute background images -->
+    <img class="bg-pet-img bg-pet-dog" src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/8b58f1c9-7811-499c-90fd-51de6734e019.png" alt="Cute dog background">
+    <img class="bg-pet-img bg-pet-cat" src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/19237f0d-1e9f-4ea6-bfc5-ebf9a83becfb.png" alt="Cute cat background">
+
+    <div class="paw-print paw-1">🐾</div>
+    <div class="paw-print paw-2">🐾</div>
+    <div class="paw-print paw-3">🐾</div>
+    <div class="paw-print paw-4">🐾</div>
+    <div class="paw-print paw-5">🐾</div>
+    <div class="paw-print paw-6">🐾</div>
+
     <div class="container">
-        <header>
-            <div class="language-selector">
-                <button class="lang-btn active" id="enBtn" onclick="switchLanguage('en')">English</button>
-                <button class="lang-btn" id="siBtn" onclick="switchLanguage('si')">සිංහල</button>
-            </div>
-            <div class="animation-container">
-                <div class="dog">🐕</div>
-                <div class="cat">🐈</div>
-            </div>
-            <h1 id="mainTitle">🐾 Paws & Whiskers 🐾</h1>
-            <p class="tagline" id="tagline">Premium Pet Food Store - Kesbewa, Sri Lanka</p>
-        </header>
+        <div class="header">
+            <h1 class="logo-title">
+                <span class="paw-icon">🐾</span>
+                <span class="en">Paws & Whiskers</span>
+                <span class="si hidden">Paws & Whiskers</span>
+                <span class="paw-icon">🐾</span>
+            </h1>
+            <p class="subtitle">
+                <span class="en">Premium Pet Food — Kesbewa, Sri Lanka</span>
+                <span class="si hidden">ප්‍රිමියම් සුරතල් ආහාර — කැස්බෑව, ශ්‍රී ලංකාව</span>
+            </p>
 
-        <div class="content">
-            <div class="pet-selector">
-                <div class="pet-card" id="dogCard" onclick="selectPet('dog')">
-                    <div class="pet-card-content">
-                        <span class="pet-icon">🐕</span>
-                        <div class="pet-label">Dog</div>
+            <div class="lang-switch">
+                <button class="lang-btn active" id="btnEn" onclick="setLang('en')">EN</button>
+                <button class="lang-btn" id="btnSi" onclick="setLang('si')">සිංහල</button>
+            </div>
+        </div>
+
+        <div class="pets-grid" id="petsGrid"></div>
+
+        <div class="order-section" id="orderSection">
+            <h2 class="order-title">
+                <span class="en">📋 Complete Your Order</span>
+                <span class="si hidden">📋 ඔබේ ඇණවුම සම්පූර්ණ කරන්න</span>
+            </h2>
+
+            <div class="order-layout">
+                <div class="form-column">
+                    <div class="form-group">
+                        <label>
+                            <span class="en">👤 Your Name</span>
+                            <span class="si hidden">👤 ඔබේ නම</span>
+                        </label>
+                        <input type="text" id="customerName" placeholder="Enter your name" oninput="updateSummary()">
                     </div>
-                    <div class="pet-checkmark" style="display: none;">✓</div>
-                </div>
-                <div class="pet-card" id="puppyCard" onclick="selectPet('puppy')">
-                    <div class="pet-card-content">
-                        <span class="pet-icon">🐶</span>
-                        <div class="pet-label">Puppy</div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="en">📍 Delivery Address</span>
+                            <span class="si hidden">📍 බෙදාහැරීමේ ලිපිනය</span>
+                        </label>
+                        <input type="text" id="address" placeholder="Enter your address" oninput="updateSummary()">
                     </div>
-                    <div class="pet-checkmark" style="display: none;">✓</div>
-                </div>
-                <div class="pet-card" id="catCard" onclick="selectPet('cat')">
-                    <div class="pet-card-content">
-                        <span class="pet-icon">🐈</span>
-                        <div class="pet-label">Cat</div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="en">🏷️ Select Brand (Required)</span>
+                            <span class="si hidden">🏷️ වෙළඳ නාමය තෝරන්න (අවශ්‍ය)</span>
+                        </label>
+                        <select id="brandSelect" onchange="updateBrand()">
+                            <option value="">— Choose a Brand —</option>
+                            <option value="Pedigree">🦴 Pedigree</option>
+                            <option value="Royal Canin">👑 Royal Canin</option>
+                            <option value="Purina">🐕 Purina Pro Plan</option>
+                            <option value="Whiskas">🐱 Whiskas</option>
+                            <option value="Me-O">😺 Me-O</option>
+                            <option value="Sheba">💎 Sheba</option>
+                            <option value="Drools">🦮 Drools</option>
+                            <option value="Cesar">🥩 Cesar</option>
+                            <option value="Taste of the Wild">🌲 Taste of the Wild</option>
+                            <option value="__custom">✏️ Other (Type Below)</option>
+                        </select>
+                        <input type="text" id="customBrand" class="hidden" placeholder="Type brand name..." style="margin-top:15px;" oninput="updateSummary()">
                     </div>
-                    <div class="pet-checkmark" style="display: none;">✓</div>
-                </div>
-                <div class="pet-card" id="kittenCard" onclick="selectPet('kitten')">
-                    <div class="pet-card-content">
-                        <span class="pet-icon">😺</span>
-                        <div class="pet-label">Kitten</div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="en">📦 Package Size</span>
+                            <span class="si hidden">📦 පැකේජ ප්‍රමාණය</span>
+                        </label>
+                        <select id="sizeDropdown" onchange="selectSizeFromDropdown()">
+                            <option value="">— Choose Size —</option>
+                            <option value="100g">100g</option>
+                            <option value="150g">150g</option>
+                            <option value="200g">200g</option>
+                            <option value="250g">250g</option>
+                            <option value="300g">300g</option>
+                            <option value="400g">400g</option>
+                            <option value="500g">500g</option>
+                            <option value="750g">750g</option>
+                            <option value="1kg">1kg</option>
+                            <option value="__custom">✏️ Custom Size</option>
+                        </select>
+                        <input type="text" id="customSize" class="hidden" placeholder="Enter custom size (e.g., 2.5kg, 15kg)" style="margin-top:15px;" oninput="updateCustomSize()">
+
+                        <div class="size-grid" style="margin-top: 15px;">
+                            <div class="size-option" onclick="selectSize('100g')">100g</div>
+                            <div class="size-option" onclick="selectSize('200g')">200g</div>
+                            <div class="size-option" onclick="selectSize('500g')">500g</div>
+                            <div class="size-option" onclick="selectSize('1kg')">1kg</div>
+                            <div class="size-option" onclick="selectSize('3kg')">3kg</div>
+                            <div class="size-option" onclick="selectSize('5kg')">5kg</div>
+                        </div>
                     </div>
-                    <div class="pet-checkmark" style="display: none;">✓</div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="en">🔢 Quantity</span>
+                            <span class="si hidden">🔢 ප්‍රමාණය</span>
+                        </label>
+                        <input type="number" id="quantity" value="1" min="1" oninput="updateSummary()">
+                    </div>
+
+                    <button class="submit-btn" onclick="placeOrder()">
+                        <span class="en">💬 Send WhatsApp Order</span>
+                        <span class="si hidden">💬 WhatsApp ඇණවුම යවන්න</span>
+                    </button>
+                </div>
+
+                <div class="order-summary-box">
+                    <div class="summary-header">
+                        <div class="summary-title">
+                            <span class="en">Order Summary</span>
+                            <span class="si hidden">ඇණවුම් සාරාංශය</span>
+                        </div>
+                        <div class="summary-icon">🧾</div>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-item-label">
+                            <span class="en">Pet Food:</span>
+                            <span class="si hidden">සුරතල් ආහාරය:</span>
+                        </span>
+                        <span class="summary-item-value" id="summaryPet">—</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-item-label">
+                            <span class="en">Brand:</span>
+                            <span class="si hidden">වෙළඳ නාමය:</span>
+                        </span>
+                        <span class="summary-item-value" id="summaryBrand">Not Selected</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-item-label">
+                            <span class="en">Size:</span>
+                            <span class="si hidden">ප්‍රමාණය:</span>
+                        </span>
+                        <span class="summary-item-value" id="summarySize">—</span>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="summary-item-label">
+                            <span class="en">Quantity:</span>
+                            <span class="si hidden">ප්‍රමාණය:</span>
+                        </span>
+                        <span class="summary-item-value" id="summaryQty">1</span>
+                    </div>
+
+                    <div class="summary-note">
+                        <span class="en">💡 <strong>Live Preview:</strong> Your order details update automatically as you fill the form!</span>
+                        <span class="si hidden">💡 <strong>සජීවී පෙරදසුන:</strong> ඔබ පෝරමය පුරවන විට ඔබේ ඇණවුම් විස්තර ස්වයංක්‍රීයව යාවත්කාලීන වේ!</span>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div id="dogSection" class="product-section">
-                <h2 style="margin-bottom: 25px; color: #333;">🐕 Dog Food Selection</h2>
-                
-                <div class="form-group">
-                    <label>Select Brand:</label>
-                    <select id="dogBrand" onchange="updateSummary()">
-                        <option value="">-- Choose Brand --</option>
-                        <option value="Royal Canin">Royal Canin</option>
-                        <option value="Advance">Advance</option>
-                        <option value="Purina">Purina</option>
-                        <option value="Hill's Science">Hill's Science</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Size:</label>
-                    <div class="size-grid" id="dogSizeGrid"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Quantity:</label>
-                    <input type="number" id="dogQuantity" min="1" value="1" onchange="updateSummary()">
-                </div>
-            </div>
-
-            <div id="catSection" class="product-section">
-                <h2 style="margin-bottom: 25px; color: #333;">🐈 Cat Food Selection</h2>
-                
-                <div class="form-group">
-                    <label>Select Brand:</label>
-                    <select id="catBrand" onchange="updateSummary()">
-                        <option value="">-- Choose Brand --</option>
-                        <option value="Royal Canin">Royal Canin</option>
-                        <option value="Advance">Advance</option>
-                        <option value="Purina">Purina</option>
-                        <option value="Hill's Science">Hill's Science</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Select Size:</label>
-                    <div class="size-grid" id="catSizeGrid"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Quantity:</label>
-                    <input type="number" id="catQuantity" min="1" value="1" onchange="updateSummary()">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Your Name:</label>
-                <input type="text" id="customerName" placeholder="Enter your name">
-            </div>
-
-            <div class="form-group">
-                <label>Delivery Address:</label>
-                <input type="text" id="address" placeholder="Enter your delivery address in Kesbewa area">
-            </div>
-
-            <div class="delivery-info">
-                <h3>🚚 Free Delivery!</h3>
-                <p>We offer FREE delivery within 5km radius from Kesbewa. Order now and get your pet's favorite food delivered to your doorstep!</p>
-            </div>
-
-            <div class="order-summary" id="orderSummary" style="display: none;">
-                <h3>📋 Order Summary</h3>
-                <div class="summary-item">
-                    <span>Pet Type:</span>
-                    <strong id="summaryPet">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Brand:</span>
-                    <strong id="summaryBrand">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Size:</span>
-                    <strong id="summarySize">-</strong>
-                </div>
-                <div class="summary-item">
-                    <span>Quantity:</span>
-                    <strong id="summaryQuantity">-</strong>
-                </div>
-            </div>
-
-            <button class="whatsapp-btn" id="orderBtn" onclick="sendWhatsAppOrder()" disabled>
-                <span style="font-size: 1.5em;">📱</span> <span id="orderBtnText">Order via WhatsApp</span>
-            </button>
-
-            <div class="qr-section">
-                <h3 id="qrTitle">📱 Or Scan QR Code to Order</h3>
-                <div class="qr-code" id="qrCode"></div>
-                <p class="qr-instructions" id="qrInstructions">Scan this QR code with your phone camera to order via WhatsApp</p>
-            </div>
+        <div class="delivery-banner">
+            <h3>
+                <span class="en">🚚 FREE Delivery Within 5km!</span>
+                <span class="si hidden">🚚 කි.මී 5ක් ඇතුළත නොමිලේ බෙදාහැරීම!</span>
+            </h3>
+            <p>
+                <span class="en">
+                    We deliver premium pet food right to your doorstep in Kesbewa area. Fast, reliable, and completely FREE within 5km radius! Please contact us in advance to check the availability of your desired food brand.
+                </span>
+                <span class="si hidden">
+                    කැස්බෑව ප්‍රදේශයේ ඔබේ දොරටුව දක්වා අපි ප්‍රිමියම් සුරතල් ආහාර බෙදා හැරිමු. වේගවත්, විශ්වාසනීය සහ කි.මී 5ක් ඇතුළත සම්පූර්ණයෙන්ම නොමිලේ! කරුණාකර ඔබට අවශ්‍ය ආහාර වෙළඳ නාමයේ තිබීම පරීක්ෂා කිරීමට කලින් අපව අමතන්න.
+                </span>
+            </p>
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2026 Paws & Whiskers. Made with 💖 for your adorable pets.</p>
+    </footer>
+
     <script>
-        const sizes = ['100g', '200g', '250g', '300g', '350g', '400g', '500g', '600g', '700g', '800g', '900g', '1kg', '2kg', '4kg'];
-        let currentPet = '';
-        let selectedSize = '';
+        const WHATSAPP_NUMBER = '94764526990'; // ⚠️ CHANGE THIS
+
+        const pets = [
+            {
+                id: 1,
+                name: { en: 'Puppy', si: 'බලු පැටව්' },
+                type: { en: 'Puppy Food', si: 'බලු පැටවුන්ගේ ආහාර' },
+                typeClass: 'puppy',
+                image: 'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/c603dcbe-4488-4352-a741-82a7358ffcfc.png'
+            },
+            {
+                id: 2,
+                name: { en: 'Dog', si: 'බව්වා' },
+                type: { en: 'Adult Dog Food', si: 'වැඩිහිටි බව්වාගේ ආහාර' },
+                typeClass: 'dog',
+                image: 'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/8b58f1c9-7811-499c-90fd-51de6734e019.png'
+            },
+            {
+                id: 3,
+                name: { en: 'Cat', si: 'පූවා' },
+                type: { en: 'Adult Cat Food', si: 'වැඩිහිටි පූවාගේ ආහාර' },
+                typeClass: 'cat',
+                image: 'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/19237f0d-1e9f-4ea6-bfc5-ebf9a83becfb.png'
+            },
+            {
+                id: 4,
+                name: { en: 'Kitten', si: 'පූ පැටව්' },
+                type: { en: 'Kitten Food', si: 'පූ පැටවුන්ගේ ආහාර' },
+                typeClass: 'kitten',
+                image: 'https://user-gen-media-assets.s3.amazonaws.com/seedream_images/5db98acc-d7b9-478e-b3fa-750a441bf3a5.png'
+            }
+        ];
+
+        let selectedPet = null;
+        let selectedSize = null;
         let currentLang = 'en';
 
-        const translations = {
-            en: {
-                mainTitle: '🐾 Paws & Whiskers 🐾',
-                tagline: 'Premium Pet Food Store - Kesbewa, Sri Lanka',
-                dog: 'Dog',
-                puppy: 'Puppy',
-                cat: 'Cat',
-                kitten: 'Kitten',
-                dogSection: '🐕 Dog Food Selection',
-                puppySection: '🐶 Puppy Food Selection',
-                catSection: '🐈 Cat Food Selection',
-                kittenSection: '😺 Kitten Food Selection',
-                selectBrand: 'Select Brand:',
-                chooseBrand: '-- Choose Brand --',
-                selectSize: 'Select Size:',
-                quantity: 'Quantity:',
-                yourName: 'Your Name:',
-                enterName: 'Enter your name',
-                deliveryAddress: 'Delivery Address:',
-                enterAddress: 'Enter your delivery address in Kesbewa area',
-                freeDelivery: '🚚 Free Delivery!',
-                deliveryInfo: 'We offer FREE delivery within 5km radius from Kesbewa. Order now and get your pet\'s favorite food delivered to your doorstep!',
-                orderSummary: '📋 Order Summary',
-                petType: 'Pet Type:',
-                brand: 'Brand:',
-                size: 'Size:',
-                qty: 'Quantity:',
-                orderBtnText: 'Order via WhatsApp',
-                qrTitle: '📱 Or Scan QR Code to Order',
-                qrInstructions: 'Scan this QR code with your phone camera to order via WhatsApp'
-            },
-            si: {
-                mainTitle: '🐾 Paws & Whiskers 🐾',
-                tagline: 'ප්‍රිමියම් සුරතල් ආහාර වෙළඳසැල - කැස්බෑව, ශ්‍රී ලංකාව',
-                dog: 'බල්ලා',
-                puppy: 'බලු පැටියා',
-                cat: 'බළලා',
-                kitten: 'බළල් පැටියා',
-                dogSection: '🐕 බල්ලන්ගේ ආහාර තෝරන්න',
-                puppySection: '🐶 බලු පැටියන්ගේ ආහාර තෝරන්න',
-                catSection: '🐈 බළලුන්ගේ ආහාර තෝරන්න',
-                kittenSection: '😺 බළල් පැටියන්ගේ ආහාර තෝරන්න',
-                selectBrand: 'සන්නාමය තෝරන්න:',
-                chooseBrand: '-- සන්නාමය තෝරන්න --',
-                selectSize: 'ප්‍රමාණය තෝරන්න:',
-                quantity: 'ප්‍රමාණය:',
-                yourName: 'ඔබේ නම:',
-                enterName: 'ඔබේ නම ඇතුළත් කරන්න',
-                deliveryAddress: 'භාර දීමේ ලිපිනය:',
-                enterAddress: 'කැස්බෑව ප්‍රදේශයේ ඔබේ ලිපිනය ඇතුළත් කරන්න',
-                freeDelivery: '🚚 නොමිලේ භාර දීම!',
-                deliveryInfo: 'අපි කැස්බෑවේ සිට කිලෝමීටර් 5ක් අරයෙන් නොමිලේ භාර දීමක් සපයන්නෙමු. දැන් ඇණවුම් කර ඔබේ සුරතලාගේ ප්‍රියතම ආහාරය ඔබේ දොරටුවට ලබා ගන්න!',
-                orderSummary: '📋 ඇණවුම් සාරාංශය',
-                petType: 'සුරතල් වර්ගය:',
-                brand: 'සන්නාමය:',
-                size: 'ප්‍රමාණය:',
-                qty: 'ප්‍රමාණය:',
-                orderBtnText: 'WhatsApp හරහා ඇණවුම් කරන්න',
-                qrTitle: '📱 හෝ QR කේතය ස්කෑන් කර ඇණවුම් කරන්න',
-                qrInstructions: 'WhatsApp හරහා ඇණවුම් කිරීමට ඔබේ දුරකථන කැමරාවෙන් මෙම QR කේතය ස්කෑන් කරන්න'
-            }
-        };
-
-        function switchLanguage(lang) {
-            currentLang = lang;
-            document.getElementById('enBtn').classList.toggle('active', lang === 'en');
-            document.getElementById('siBtn').classList.toggle('active', lang === 'si');
-            
-            // Update all text content
-            const t = translations[lang];
-            document.getElementById('mainTitle').textContent = t.mainTitle;
-            document.getElementById('tagline').textContent = t.tagline;
-            document.getElementById('orderBtnText').textContent = t.orderBtnText;
-            document.getElementById('qrTitle').textContent = t.qrTitle;
-            document.getElementById('qrInstructions').textContent = t.qrInstructions;
-            
-            // Update pet labels
-            document.querySelectorAll('.pet-label').forEach((label, index) => {
-                const pets = ['dog', 'puppy', 'cat', 'kitten'];
-                label.textContent = t[pets[index]];
-            });
-            
-            // Update form labels - we'll do this dynamically based on current pet
-            if (currentPet) {
-                updateFormLabels();
-            }
-        }
-
-        function updateFormLabels() {
-            const t = translations[currentLang];
-            const section = document.getElementById(currentPet + 'Section');
-            if (section) {
-                section.querySelector('h2').textContent = t[currentPet + 'Section'];
-                const labels = section.querySelectorAll('label');
-                labels[0].textContent = t.selectBrand;
-                labels[1].textContent = t.selectSize;
-                labels[2].textContent = t.quantity;
-                
-                section.querySelector('option').textContent = t.chooseBrand;
-            }
-            
-            document.querySelectorAll('label')[document.querySelectorAll('label').length - 2].textContent = t.yourName;
-            document.querySelectorAll('label')[document.querySelectorAll('label').length - 1].textContent = t.deliveryAddress;
-            document.getElementById('customerName').placeholder = t.enterName;
-            document.getElementById('address').placeholder = t.enterAddress;
-            
-            document.querySelector('.delivery-info h3').textContent = t.freeDelivery;
-            document.querySelector('.delivery-info p').textContent = t.deliveryInfo;
-            
-            if (document.getElementById('orderSummary').style.display !== 'none') {
-                document.querySelector('.order-summary h3').textContent = t.orderSummary;
-                document.querySelectorAll('.summary-item span')[0].textContent = t.petType;
-                document.querySelectorAll('.summary-item span')[1].textContent = t.brand;
-                document.querySelectorAll('.summary-item span')[2].textContent = t.size;
-                document.querySelectorAll('.summary-item span')[3].textContent = t.qty;
-            }
-        }
-
-        function generateQRCode() {
-            const whatsappNumber = '94778889324';
-            const whatsappURL = `https://wa.me/${whatsappNumber}`;
-            
-            const qrContainer = document.getElementById('qrCode');
-            
-            // Using chart.googleapis.com for QR code generation - more reliable
-            qrContainer.innerHTML = `
-                <img src="https://chart.googleapis.com/chart?cht=qr&chs=250x250&chl=${encodeURIComponent(whatsappURL)}&choe=UTF-8" 
-                     alt="WhatsApp QR Code" 
-                     style="border-radius: 15px; display: block; width: 250px; height: 250px; image-rendering: crisp-edges;"
-                     onerror="generateManualQR()">
-            `;
-        }
-
-        function generateManualQR() {
-            // Fallback: Create a clickable alternative if QR fails
-            const whatsappNumber = '94778889324';
-            const whatsappURL = `https://wa.me/${whatsappNumber}`;
-            
-            const qrContainer = document.getElementById('qrCode');
-            qrContainer.innerHTML = `
-                <a href="${whatsappURL}" target="_blank" style="text-decoration: none;">
-                    <div style="
-                        width: 250px; 
-                        height: 250px; 
-                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                        border-radius: 15px;
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        transition: transform 0.3s;
-                    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                        <div style="font-size: 80px; margin-bottom: 10px;">📱</div>
-                        <div style="color: white; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700; text-align: center; padding: 0 20px;">
-                            Tap to Order<br>via WhatsApp
-                        </div>
+        function renderPets() {
+            const grid = document.getElementById('petsGrid');
+            grid.innerHTML = pets.map(pet => `
+                <div class="pet-card ${selectedPet?.id === pet.id ? 'selected' : ''}" id="pet-${pet.id}">
+                    <img src="${pet.image}" alt="${pet.name.en}" class="pet-img">
+                    <div class="pet-name">
+                        <span class="en">${pet.name.en}</span>
+                        <span class="si hidden">${pet.name.si}</span>
                     </div>
-                </a>
-            `;
+                    <div class="pet-type-badge type-${pet.typeClass}">
+                        <span class="en">${pet.type.en}</span>
+                        <span class="si hidden">${pet.type.si}</span>
+                    </div>
+                    <button class="select-btn" onclick="selectPet(${pet.id})">
+                        <span class="en">⭐ Select Me!</span>
+                        <span class="si hidden">⭐ මා තෝරන්න!</span>
+                    </button>
+                </div>
+            `).join('');
         }
 
-        function createSizeGrid(petType) {
-            const grid = document.getElementById(petType + 'SizeGrid');
-            grid.innerHTML = '';
-            sizes.forEach(size => {
-                const div = document.createElement('div');
-                div.className = 'size-option';
-                div.textContent = size;
-                div.onclick = () => selectSize(petType, size, div);
-                grid.appendChild(div);
-            });
-        }
-
-        function selectSize(petType, size, element) {
-            document.querySelectorAll(`#${petType}SizeGrid .size-option`).forEach(el => {
-                el.classList.remove('selected');
-            });
-            element.classList.add('selected');
-            selectedSize = size;
+        function selectPet(id) {
+            selectedPet = pets.find(p => p.id === id);
+            renderPets();
+            document.getElementById('orderSection').classList.add('show');
+            document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
             updateSummary();
         }
 
-        function selectPet(pet) {
-            currentPet = pet;
-            // Remove active class from all cards and hide checkmarks
-            document.querySelectorAll('.pet-card').forEach(card => {
-                card.classList.remove('active');
-                const checkmark = card.querySelector('.pet-checkmark');
-                if (checkmark) checkmark.style.display = 'none';
-            });
-            // Remove active class from all sections
-            document.querySelectorAll('.product-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Add active class to selected card and section, show checkmark
-            const selectedCard = document.getElementById(pet + 'Card');
-            selectedCard.classList.add('active');
-            const checkmark = selectedCard.querySelector('.pet-checkmark');
-            if (checkmark) checkmark.style.display = 'flex';
-            
-            document.getElementById(pet + 'Section').classList.add('active');
-            
-            selectedSize = '';
-            updateFormLabels();
+        function selectSize(size) {
+            selectedSize = size;
+            document.querySelectorAll('.size-option').forEach(el => el.classList.remove('selected'));
+            event.target.classList.add('selected');
+            document.getElementById('sizeDropdown').value = '';
+            document.getElementById('customSize').classList.add('hidden');
+            document.getElementById('customSize').value = '';
+            updateSummary();
+        }
+
+        function selectSizeFromDropdown() {
+            const dropdown = document.getElementById('sizeDropdown');
+            const customInput = document.getElementById('customSize');
+
+            if (dropdown.value === '__custom') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+                selectedSize = null;
+            } else if (dropdown.value) {
+                selectedSize = dropdown.value;
+                customInput.classList.add('hidden');
+                customInput.value = '';
+                document.querySelectorAll('.size-option').forEach(el => el.classList.remove('selected'));
+            }
+            updateSummary();
+        }
+
+        function updateCustomSize() {
+            const custom = document.getElementById('customSize').value;
+            if (custom) {
+                selectedSize = custom;
+                document.querySelectorAll('.size-option').forEach(el => el.classList.remove('selected'));
+                document.getElementById('sizeDropdown').value = '__custom';
+            }
+            updateSummary();
+        }
+
+        function updateBrand() {
+            const select = document.getElementById('brandSelect');
+            const customInput = document.getElementById('customBrand');
+            if (select.value === '__custom') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+            }
             updateSummary();
         }
 
         function updateSummary() {
-            const brand = document.getElementById(currentPet + 'Brand').value;
-            const quantity = document.getElementById(currentPet + 'Quantity').value;
-            const name = document.getElementById('customerName').value;
-            const address = document.getElementById('address').value;
-
-            if (brand && selectedSize && quantity && name && address) {
-                document.getElementById('orderSummary').style.display = 'block';
-                const petLabels = {
-                    'dog': '🐕 Dog',
-                    'puppy': '🐶 Puppy',
-                    'cat': '🐈 Cat',
-                    'kitten': '😺 Kitten'
-                };
-                document.getElementById('summaryPet').textContent = petLabels[currentPet];
-                document.getElementById('summaryBrand').textContent = brand;
-                document.getElementById('summarySize').textContent = selectedSize;
-                document.getElementById('summaryQuantity').textContent = quantity;
-                document.getElementById('orderBtn').disabled = false;
-            } else {
-                document.getElementById('orderBtn').disabled = true;
+            const petName = selectedPet ? selectedPet.type[currentLang] : '—';
+            let brand = document.getElementById('brandSelect').value;
+            if (brand === '__custom') {
+                brand = document.getElementById('customBrand').value || 'Custom Brand';
+            } else if (!brand) {
+                brand = 'Not Selected';
             }
+            const size = selectedSize || document.getElementById('customSize').value || '—';
+            const qty = document.getElementById('quantity').value || '1';
+
+            document.getElementById('summaryPet').textContent = petName;
+            document.getElementById('summaryBrand').textContent = brand;
+            document.getElementById('summarySize').textContent = size;
+            document.getElementById('summaryQty').textContent = qty;
         }
 
-        function sendWhatsAppOrder() {
-            const petLabels = {
-                'dog': '🐕 Dog',
-                'puppy': '🐶 Puppy',
-                'cat': '🐈 Cat',
-                'kitten': '😺 Kitten'
-            };
-            const petType = petLabels[currentPet];
-            const brand = document.getElementById(currentPet + 'Brand').value;
-            const quantity = document.getElementById(currentPet + 'Quantity').value;
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.en').forEach(el => el.classList.toggle('hidden', lang !== 'en'));
+            document.querySelectorAll('.si').forEach(el => el.classList.toggle('hidden', lang !== 'si'));
+            document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+            document.getElementById('btnSi').classList.toggle('active', lang === 'si');
+            updateSummary();
+        }
+
+        function placeOrder() {
+            if (!selectedPet) {
+                alert(currentLang === 'en' 
+                    ? '❌ Please select a pet food type first!' 
+                    : '❌ කරුණාකර මුලින්ම සුරතල් ආහාර වර්ගයක් තෝරන්න!');
+                return;
+            }
+
             const name = document.getElementById('customerName').value;
             const address = document.getElementById('address').value;
+            let brand = document.getElementById('brandSelect').value;
+            if (brand === '__custom') {
+                brand = document.getElementById('customBrand').value;
+            }
+            const size = selectedSize || document.getElementById('customSize').value;
+            const qty = document.getElementById('quantity').value;
 
-            const message = `🐾 *New Pet Food Order* 🐾%0A%0A` +
-                `*Customer Name:* ${name}%0A` +
-                `*Pet Type:* ${petType}%0A` +
-                `*Brand:* ${brand}%0A` +
-                `*Size:* ${selectedSize}%0A` +
-                `*Quantity:* ${quantity}%0A` +
-                `*Delivery Address:* ${address}%0A%0A` +
-                `✅ Free delivery within 5km from Kesbewa!`;
+            if (!name || !address) {
+                alert(currentLang === 'en' 
+                    ? '❌ Please fill in your name and address!' 
+                    : '❌ කරුණාකර ඔබේ නම සහ ලිපිනය පුරවන්න!');
+                return;
+            }
 
-            const whatsappNumber = '94778889324';
-            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
-            
-            window.open(whatsappURL, '_blank');
+            if (!brand || brand === '__custom') {
+                alert(currentLang === 'en' 
+                    ? '❌ Please select a brand!' 
+                    : '❌ කරුණාකර වෙළඳ නාමයක් තෝරන්න!');
+                return;
+            }
+
+            if (!size) {
+                alert(currentLang === 'en' 
+                    ? '❌ Please select a package size!' 
+                    : '❌ කරුණාකර පැකේජ ප්‍රමාණයක් තෝරන්න!');
+                return;
+            }
+
+            const petName = selectedPet.type[currentLang];
+
+            const message = `🐾 *Paws & Whiskers - Pet Food Order*
+
+📦 *Pet Food:* ${petName}
+👤 *Customer Name:* ${name}
+📍 *Delivery Address:* ${address}
+🏷️ *Brand:* ${brand}
+📏 *Package Size:* ${size}
+🔢 *Quantity:* ${qty}
+
+✅ Please confirm my order. Thank you! 🐾`;
+
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         }
 
-        // Initialize size grids
-        createSizeGrid('dog');
-        createSizeGrid('puppy');
-        createSizeGrid('cat');
-        createSizeGrid('kitten');
-
-        // Add input listeners
-        document.getElementById('customerName').addEventListener('input', updateSummary);
-        document.getElementById('address').addEventListener('input', updateSummary);
-        
-        // Generate QR code on load
-        generateQRCode();
+        renderPets();
     </script>
 </body>
 </html>
